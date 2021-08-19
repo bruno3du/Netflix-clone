@@ -70,11 +70,7 @@ function App() {
 			</section>
 
 			<footer>
-				Feito com{' '}
-				<span role='img' aria-label='coração'>
-					coração
-				</span>{' '}
-				por Bruno <br />
+				Feito por Bruno <br />
 				Direitos de Imagem para Netflix <br />
 				Imagens retirados do site Tmdb.
 			</footer>
