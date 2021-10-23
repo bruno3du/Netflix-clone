@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { TmdbApi } from './TmdbApi';
 import MovieRow from './components/MovieRow';
@@ -12,7 +12,21 @@ function App() {
 	const [featuredData, setFeaturedData] = useState(null);
 	const [blackHeader, setBlackHeader] = useState(false);
 
-	async function selectingFeatured(originals) {
+	// const selectingFeatured = async (originals) => {
+	// 	let randomChosen = await Math.floor(
+	// 		Math.random() * originals[0].items.results.length
+	// 	);
+	// 	let chosen = originals[0].items.results[randomChosen];
+	// 	let selectChosen = await TmdbApi.getMovieInfo(chosen.id, 'tv');
+
+	// 	if (selectChosen.backdrop_path && selectChosen.overview) {
+	// 		return selectChosen;
+	// 	} else {
+	// 		return await selectingFeatured(originals);
+	// 	}
+	// };
+
+	const memoizedSelectingFeatured = useCallback(async (originals) => {
 		let randomChosen = await Math.floor(
 			Math.random() * originals[0].items.results.length
 		);
@@ -22,27 +36,24 @@ function App() {
 		if (selectChosen.backdrop_path && selectChosen.overview) {
 			return selectChosen;
 		} else {
-			return await selectingFeatured(originals);
+			return await memoizedSelectingFeatured(originals);
 		}
-	}
+	}, []);
 
 	useEffect(() => {
 		const loadAll = async () => {
-
 			//Pegando a lista completa
 			let list = await TmdbApi.getHomeList();
 			setMovieList(list);
 
 			//Selecionando Featured
 			let originals = list.filter((list) => list.slug === 'originals');
-			let chosen = await selectingFeatured(originals);
-			
-			
-			setFeaturedData(chosen);
+			let chosen = await memoizedSelectingFeatured(originals);
 
+			setFeaturedData(chosen);
 		};
 		loadAll();
-	}, []);
+	}, [memoizedSelectingFeatured]);
 
 	useEffect(() => {
 		const scrollListener = () => {
@@ -53,9 +64,6 @@ function App() {
 			}
 		};
 		window.addEventListener('scroll', scrollListener);
-		// return () => {
-		// 	window.removeEventListener('scroll', scrollListener);
-		// };
 	}, []);
 
 	return (
@@ -78,7 +86,7 @@ function App() {
 				Direitos de Imagem para Netflix <br />
 				Imagens retirados do site Tmdb.
 			</footer>
-			{movieList.length <=  0 && (
+			{movieList.length <= 0 && (
 				<div className='loading'>
 					<img
 						className='loader'

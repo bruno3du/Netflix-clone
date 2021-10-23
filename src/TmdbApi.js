@@ -79,15 +79,15 @@ export const TmdbApi = {
 					return (info = await basicFetch(
 						`/movie/${movieId}?language=pt-BR&api_key=${API_KEY}`
 					));
-					
+
 				case 'tv':
 					return (info = await basicFetch(
 						`/tv/${movieId}?language=pt-BR&api_key=${API_KEY}`
 					));
-					
+
 				default:
-					info = null;
-					break;
+					// eslint-disable-next-line
+					return (info = null);
 			}
 		}
 	},

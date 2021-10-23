@@ -27,7 +27,7 @@ export default function MovieRow({ title, items }) {
 
 		setScrollX(x);
 	};
-	
+
 	return (
 		<div className='movieRow'>
 			<h2>{title}</h2>
@@ -46,9 +46,9 @@ export default function MovieRow({ title, items }) {
 						width: items.results.length * 150,
 					}}>
 					{items.results.length > 0 &&
-						items.results.map((item, key) => {
-							if (item.poster_path) {
-								return (
+						items.results.map(
+							(item, key) =>
+								item.poster_path && (
 									<div key={key} className='movieRow--item'>
 										{
 											<img
@@ -58,9 +58,8 @@ export default function MovieRow({ title, items }) {
 											/>
 										}
 									</div>
-								);
-							}
-						})}
+								)
+						)}
 				</div>
 			</div>
 		</div>
