@@ -21,13 +21,13 @@ export default function MovieRow({ title, items }) {
 		let x = scrollX - Math.round(window.innerWidth / 2);
 		let listW = items.results.length * 150;
 
-		if ((window.innerWidth - listW) > x) {
-			x = (window.innerWidth - listW) - 60
+		if (window.innerWidth - listW > x) {
+			x = window.innerWidth - listW - 60;
 		}
 
 		setScrollX(x);
 	};
-
+	
 	return (
 		<div className='movieRow'>
 			<h2>{title}</h2>

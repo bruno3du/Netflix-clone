@@ -6,7 +6,6 @@ import { TmdbApi } from './TmdbApi';
 import MovieRow from './components/MovieRow';
 import FeaturedMovie from './components/FeaturedMovie';
 import Header from './components/Header';
-// import '../public/Netflix_LoadingTime.gif'
 
 function App() {
 	const [movieList, setMovieList] = useState([]);
@@ -29,6 +28,7 @@ function App() {
 
 	useEffect(() => {
 		const loadAll = async () => {
+
 			//Pegando a lista completa
 			let list = await TmdbApi.getHomeList();
 			setMovieList(list);
@@ -36,7 +36,10 @@ function App() {
 			//Selecionando Featured
 			let originals = list.filter((list) => list.slug === 'originals');
 			let chosen = await selectingFeatured(originals);
+			
+			
 			setFeaturedData(chosen);
+
 		};
 		loadAll();
 	}, []);
@@ -50,10 +53,11 @@ function App() {
 			}
 		};
 		window.addEventListener('scroll', scrollListener);
-		return () => {
-			window.removeEventListener('scroll', scrollListener);
-		};
+		// return () => {
+		// 	window.removeEventListener('scroll', scrollListener);
+		// };
 	}, []);
+
 	return (
 		<div className='page'>
 			<Header black={blackHeader} />
